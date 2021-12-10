@@ -110,9 +110,11 @@ const findCorruptedChunk = (line) => {
                 correctArray.pop()
             } else {
                 findIllegalCharacter = true
-                console.log('non match character: ',line[i])
+                // console.log('non match character: ',line[i])
                 if(line[i]) {
                     illegalCharacters.push(line[i])
+                } else {
+                    addClosingCharacters(correctArray)
                 }
 
             }
@@ -121,6 +123,59 @@ const findCorruptedChunk = (line) => {
         // console.log('correctArray: ', correctArray)
         i++
     }
+
+}
+
+const addClosingCharacters = (startLine) => {
+    const endingLine = []
+    let currentCharacter = ''
+    while(startLine.length > 0) {
+        currentCharacter = startLine.pop()
+        // console.log('currentCharacter: ', currentCharacter)
+        switch (currentCharacter[0]) {
+            case "{":
+                endingLine.push("}")
+                break
+            case "[":
+                endingLine.push("]")
+                break
+            case "(":
+                endingLine.push(")")
+                break
+            case "<":
+                endingLine.push(">")
+                break
+            default:
+                console.error('not handling character: ', currentCharacter)
+        }
+    }
+
+    console.log('endingLine: ', endingLine)
+    countTotalPoints(endingLine)
+}
+
+const countTotalPoints = (endingLine) => {
+    let totalCount = 0
+    endingLine.forEach(character => {
+        switch (character) {
+            case "}":
+                totalCount = totalCount * 5 + 3
+                break
+            case "]":
+                totalCount = totalCount * 5 + 2
+                break
+            case ">":
+                totalCount = totalCount * 5 + 4
+                break
+            case ")":
+                totalCount = totalCount * 5 + 1
+                break
+            default:
+                console.error('not handling character: ', character)
+        }
+    })
+    console.log('totalCount: ', totalCount)
+    scores.push(totalCount)
 
 }
 
@@ -144,12 +199,12 @@ const sumIllegalCharacters = () => {
                 sum += 0
         }
     })
-    console.log('sum: ', sum)
+    // console.log('sum: ', sum)
 }
 
 export const exercise_19 = async () => {
 
-    fetch(testFile)
+    fetch(file)
         .then( r => r.text() )
         .then( t => {
             let navigationLines = t.split('\n');
@@ -157,8 +212,16 @@ export const exercise_19 = async () => {
             navigationLines.forEach( line => {
                 findCorruptedChunk(line);
             })
-            console.log('illegalCharacters: ', illegalCharacters)
+            // console.log('illegalCharacters: ', illegalCharacters)
             sumIllegalCharacters()
+
+            console.log('scores: ', scores)
+
+           const sortScores = scores.sort((a, b) => b - a)
+
+            console.log('sortScores: ', sortScores)
+
+            console.log('middle score: ', sortScores[Math.ceil((sortScores.length - 1) / 2)])
 
         } )
 }
