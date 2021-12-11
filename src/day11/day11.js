@@ -292,6 +292,48 @@
 //
 //     Given the starting energy levels of the dumbo octopuses in your cavern, simulate 100 steps. How many total flashes are there after 100 steps?
 
+// --- Part Two ---
+// It seems like the individual flashes aren't bright enough to navigate. However, you might have a better option: the flashes seem to be synchronizing!
+//
+// In the example above, the first time all octopuses flash simultaneously is step 195:
+//
+// After step 193:
+// 5877777777
+// 8877777777
+// 7777777777
+// 7777777777
+// 7777777777
+// 7777777777
+// 7777777777
+// 7777777777
+// 7777777777
+// 7777777777
+//
+// After step 194:
+// 6988888888
+// 9988888888
+// 8888888888
+// 8888888888
+// 8888888888
+// 8888888888
+// 8888888888
+// 8888888888
+// 8888888888
+// 8888888888
+//
+// After step 195:
+// 0000000000
+// 0000000000
+// 0000000000
+// 0000000000
+// 0000000000
+// 0000000000
+// 0000000000
+// 0000000000
+// 0000000000
+// 0000000000
+// If you can calculate the exact moments when the octopuses will all flash simultaneously, you should be able to navigate through the cavern. What is the first step during which all octopuses flash?
+
 import file from "../day11/source_11.txt";
 import testFile from "../day11/test_11.txt"
 
@@ -377,8 +419,17 @@ export const exercise_21 = async () => {
             dumboOctopuses = dumboOctopuses.map(row => row.split(''))
 
             console.log('dumboOctopuses', dumboOctopuses)
-            for(let i = 0; i < 100; i++) {
+            // for(let i = 0; i < 100; i++) {
+            //     countNextStep()
+            // }
+            let i = 0
+            let isFlashAll = false
+            while(!isFlashAll && i <= 500) {
                 countNextStep()
+                isFlashAll = dumboOctopuses.every(row => row.every(octopus => Number(octopus) === 0))
+                i++
+                console.log('isFlashAll', isFlashAll, ' i: ', i)
+
             }
 
 
