@@ -86,8 +86,8 @@ const addNewInstruction = (countOfIterations) => {
         polymer = currentPolymer.join('')
         console.log('polymer ', polymer)
         countOfIterations--
+        countChars()
     }
-
 }
 
 const countChars = () => {
@@ -136,29 +136,65 @@ export const exercise_27 = async () => {
         } )
 }
 
-const createNewSubstring = (subPolymer) => {
-    let currentSubPolymer = subPolymer
-    let newSubPolymer = currentSubPolymer
-    let currentInstruction = []
-    let addString
-    let length
-    newSubPolymer = currentSubPolymer.split('')
-    addString = 0
-    length = 1
-    while (length < currentSubPolymer.length) {
-        let searchString = currentSubPolymer[length - 1] + currentSubPolymer[length]
-        // console.log('searchString', searchString)
-        currentInstruction = instructions.filter(instruction => instruction[0] === searchString)
-        // console.log('currentInstruction', currentInstruction)
-        if (currentInstruction.length > 0) {
-            newSubPolymer.splice(length + addString, 0, currentInstruction[0][1])
-            addString++
-        }
-        length++
+const addToMap = (map, key, val = 1) => {
+    if(!map.has(key)) {
+        map.set(key, 0)
     }
-    // console.log('currentPolymer', currentPolymer)
-    currentSubPolymer = newSubPolymer.join('')
-
-    return currentSubPolymer
+    map.set(key, map.get(key) + val)
 }
 
+
+export const exercise_28 = async () => {
+    fetch(file)
+        .then( r => r.text() )
+        .then( t => {
+            let input = t.split('\n');
+            polymer = input[0]
+
+            let map = new Map();
+
+            for (let i = 0; i < polymer.length - 1; i++) {
+                const pair = polymer[i] + polymer[i+1]
+                addToMap(map, pair)
+            }
+
+            instructions = input.map(row => row.split(' -> ')).slice(2)
+            const pairRulesMap = new Map();
+
+            for(const instruction of instructions) {
+                pairRulesMap
+                    .set(instruction[0], [instruction[0][0] + instruction[1], instruction[1] + instruction[0][1]])
+            }
+            // console.log('pair rules map: ', {pairRulesMap})
+
+            const lastChar = polymer[polymer.length - 1]
+
+            for(let step = 0; step < 40; step++) {
+                let current = new Map();
+                const keys = map.keys()
+                for(const key of keys) {
+                    const next = pairRulesMap.get(key)
+                    addToMap(current, next[0], map.get(key))
+                    addToMap(current, next[1], map.get(key))
+                }
+
+                map = current;
+                // console.log(map)
+            }
+
+            const elementCount = new Map();
+            addToMap(elementCount, lastChar)
+            const keys = map.keys()
+            for(const key of keys) {
+                addToMap(elementCount, key[0], map.get(key))
+            }
+
+            // console.log('elementCount: ', elementCount)
+
+            const values = [...elementCount.values()]
+            const min = Math.min(...values)
+            const max = Math.max(...values)
+
+            console.log('sum: ', max - min)
+        } )
+}
