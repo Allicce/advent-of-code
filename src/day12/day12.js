@@ -156,17 +156,35 @@ const isSmallCave = (string) => {
  *             recursively call DFS(G, w)
  */
 
-const depthFirstSearch = ( node, visited, paths) => {
+const depthFirstSearch = ( node, visited, visitedTwiceAlready, paths) => {
     visited.push(node)
     if(node === 'end'){
         paths.push(visited.join(','))
         return
     }
     for (const neighbor of graph[node]) {
-        if(isSmallCave(neighbor) && visited.includes(neighbor)) {
+        // if(isSmallCave(neighbor) && visited.includes(neighbor)) {
+        //     continue
+        // }
+        if(neighbor === 'start') {
             continue
         }
-        depthFirstSearch(neighbor, [...visited], paths)
+
+        if(isSmallCave(neighbor) &&  visited.includes(neighbor)) {
+            if(visitedTwiceAlready) {
+                continue
+            }
+
+            if(visited.filter( x => x === neighbor).length >= 2){
+                continue
+            }
+
+            depthFirstSearch(neighbor, [...visited], true, paths)
+        } else {
+            depthFirstSearch(neighbor, [...visited], visitedTwiceAlready, paths)
+        }
+
+
     }
 }
 
@@ -189,7 +207,7 @@ export const exercise_23 = async () => {
                 return {from, to}
             })
             const paths = []
-            depthFirstSearch('start', [], paths)
+            depthFirstSearch('start', [], false, paths)
             // console.log('pathsLines:', pathsLines)
             console.log('graph:', graph)
             console.log('paths:', paths, ' length: ', paths.length)
