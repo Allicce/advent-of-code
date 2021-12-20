@@ -183,3 +183,30 @@ export const exercise_33 = async () => {
 
         } )
 }
+
+export const exercise_34 = async () => {
+    let total = 0
+    fetch(file)
+        .then( r => r.text() )
+        .then( t => {
+            let  line = t.trim();
+
+            const target = line
+                .match(/target area: x=(?<xMin>-?\d+)..(?<xMax>-?\d+), y=(?<yMin>-?\d+)..(?<yMax>-?\d+)/)
+                .groups
+            // console.log(target)
+
+            for (let vx = 1; vx <= target.xMax; vx++) {
+                for( let vy = 1000; vy >= target.yMin; vy--) {
+                    const steps = simulate({vx, vy, target})
+
+                    if(steps) {
+                        total++
+                    }
+                }
+            }
+
+            console.log('total: ', total)
+
+        } )
+}
