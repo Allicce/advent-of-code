@@ -147,6 +147,21 @@ const doubleConvolution = ({image, algorithm}) => {
     return convolution({image: tmp, algorithm, defaultChar})
 }
 
+const multipleConvolution = ({image, algorithm, steps = 50}) => {
+    let defaultChar = '.'
+    let currentImage = image
+    for(let i = 0; i < steps; i++) {
+        currentImage = convolution({image: currentImage, algorithm, defaultChar})
+        if(defaultChar === '.' && algorithm[0] === '#') {
+            defaultChar = '#'
+        } else if(defaultChar === '#' && algorithm[algorithm.length - 1] === '.') {
+            defaultChar = '.'
+        }
+    }
+
+    return currentImage
+}
+
 const countLight = (image) => {
     const count = image.join('').replaceAll('.','').length
     return count
@@ -154,13 +169,15 @@ const countLight = (image) => {
 
 export const exercise_39 = async () => {
 
-    fetch(testFile)
+    fetch(file)
         .then( r => r.text() )
         .then( t => {
             const [algorithm, data] = t.split('\n\n');
 
             const image = data.trim().split('\n')
 
-            console.log('sum: ', countLight(doubleConvolution({image, algorithm})))
+            // console.log('sum: ', countLight(doubleConvolution({image, algorithm})))
+
+            console.log('sum: ', countLight(multipleConvolution({image, algorithm, steps: 50})))
         } )
 }
