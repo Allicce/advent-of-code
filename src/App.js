@@ -1,6 +1,6 @@
 import './App.css';
 import React, { Component } from 'react'
-import {exercise_39} from "./day20/day20";
+import {exercise_31} from "./day16/day16";
 
 
 
@@ -10,7 +10,7 @@ import {exercise_39} from "./day20/day20";
 
 class App extends Component {
     componentDidMount() {
-        exercise_39()
+        exercise_31()
     }
 
     render() {
