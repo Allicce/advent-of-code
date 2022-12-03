@@ -1,16 +1,11 @@
 import './App.css';
 import React, { Component } from 'react'
-import {exercise_41, exercise_42} from "./day21/day21";
-
-
-
-
-
-
+import {part_one, part_two} from "./2022/day3/day3";
 
 class App extends Component {
     componentDidMount() {
-        exercise_42()
+        // part_one()
+        part_two()
     }
 
     render() {
