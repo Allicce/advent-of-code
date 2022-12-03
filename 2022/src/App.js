@@ -1,9 +1,10 @@
 import './App.css';
 import React, { Component } from 'react'
-import {part_one, part_two} from "./day2/day2";
+import {part_one, part_two} from "./day3/day3";
 
 class App extends Component {
     componentDidMount() {
+        // part_one()
         part_two()
     }
 
