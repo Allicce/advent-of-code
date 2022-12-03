@@ -33,13 +33,7 @@ import test_part_two from './test_3_part_two'
 //
 // Find the item type that appears in both compartments of each rucksack. What is the sum of the priorities of those item types?
 
-String.prototype.halve = function() {
-    const length = Math.floor(this.length / 2)
-    const first = this.slice(0, length)
-    const second = this.slice(length, this.length)
 
-    return [first, second]
-}
 
 const commonCharacter = (str1, str2) => {
     for(let letter of str1) {
@@ -53,18 +47,16 @@ const differenceUpperCaseLetter = "A".charCodeAt(0) - 1 - 26
 
 export const part_one = async () => {
     let sum = 0
-    fetch(file)
+    fetch(test)
         .then( r => r.text() )
         .then( t => {
             let packages = t.split('\r\n');
             packages.forEach(backpack => {
                const compartments = backpack.halve()
                 const duplicate = commonCharacter(compartments[0], compartments[1])
-                if(duplicate.charCodeAt(0) < differenceLowerCaseLetter) {
-                    sum += duplicate.charCodeAt(0) - differenceUpperCaseLetter
-                } else {
-                    sum += duplicate.charCodeAt(0) - differenceLowerCaseLetter
-                }
+                console.log('duplicate: ', duplicate, duplicate.isUpperCase())
+                const diff = duplicate.isUpperCase() ? differenceUpperCaseLetter : differenceLowerCaseLetter
+                sum += duplicate.charCodeAt(0) - diff
             })
             console.log('sum: ', sum)
         } )
@@ -112,11 +104,8 @@ export const part_two = async () => {
             }
             groups.forEach(group => {
                 const duplicate = commonGroupCharacter(group[0], group[1], group[2])
-                if(duplicate.charCodeAt(0) < differenceLowerCaseLetter) {
-                    sum += duplicate.charCodeAt(0) - differenceUpperCaseLetter
-                } else {
-                    sum += duplicate.charCodeAt(0) - differenceLowerCaseLetter
-                }
+                const diff = duplicate.isUpperCase() ? differenceUpperCaseLetter : differenceLowerCaseLetter
+                sum += duplicate.charCodeAt(0) - diff
             })
             console.log('sum: ', sum)
         } )
