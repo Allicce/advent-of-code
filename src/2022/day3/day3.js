@@ -1,6 +1,5 @@
 import file from './source_3.txt'
 import test from './test_3.txt'
-import test_part_two from './test_3_part_two'
 
 // --- Day 3: Rucksack Reorganization ---
 // One Elf has the important job of loading all of the rucksacks with supplies for the jungle journey. Unfortunately, that Elf didn't quite follow the packing instructions, and so a few items now need to be rearranged.
@@ -34,32 +33,31 @@ import test_part_two from './test_3_part_two'
 // Find the item type that appears in both compartments of each rucksack. What is the sum of the priorities of those item types?
 
 
-
 const commonCharacter = (str1, str2) => {
-    for(let letter of str1) {
-        if(str2.includes(letter)) return letter
-    }
-    return null
+  for (let letter of str1) {
+    if (str2.includes(letter)) return letter
+  }
+  return null
 }
 
 const differenceLowerCaseLetter = "a".charCodeAt(0) - 1
 const differenceUpperCaseLetter = "A".charCodeAt(0) - 1 - 26
 
 export const part_one = async () => {
-    let sum = 0
-    fetch(test)
-        .then( r => r.text() )
-        .then( t => {
-            let packages = t.split('\r\n');
-            packages.forEach(backpack => {
-               const compartments = backpack.halve()
-                const duplicate = commonCharacter(compartments[0], compartments[1])
-                console.log('duplicate: ', duplicate, duplicate.isUpperCase())
-                const diff = duplicate.isUpperCase() ? differenceUpperCaseLetter : differenceLowerCaseLetter
-                sum += duplicate.charCodeAt(0) - diff
-            })
-            console.log('sum: ', sum)
-        } )
+  let sum = 0
+  fetch(test)
+    .then(r => r.text())
+    .then(t => {
+      let packages = t.split('\r\n');
+      packages.forEach(backpack => {
+        const compartments = backpack.halve()
+        const duplicate = commonCharacter(compartments[0], compartments[1])
+        console.log('duplicate: ', duplicate, duplicate.isUpperCase())
+        const diff = duplicate.isUpperCase() ? differenceUpperCaseLetter : differenceLowerCaseLetter
+        sum += duplicate.charCodeAt(0) - diff
+      })
+      console.log('sum: ', sum)
+    })
 }
 
 // As you finish identifying the misplaced items, the Elves come to you with another issue.
@@ -87,26 +85,27 @@ export const part_one = async () => {
 // Find the item type that corresponds to the badges of each three-Elf group. What is the sum of the priorities of those item types?
 
 const commonGroupCharacter = (str1, str2, str3) => {
-    for(let letter of str1) {
-        if(str2.includes(letter) && str3.includes(letter)) return letter
-    }
-    return null
+  for (let letter of str1) {
+    if (str2.includes(letter) && str3.includes(letter)) return letter
+  }
+  return null
 }
 export const part_two = async () => {
-    let sum = 0
-    const groups = []
-    fetch(file)
-        .then( r => r.text() )
-        .then( t => {
-            let packages = t.split('\r\n');
-            while(packages.length) {
-                groups.push(packages.splice(0,3))
-            }
-            groups.forEach(group => {
-                const duplicate = commonGroupCharacter(group[0], group[1], group[2])
-                const diff = duplicate.isUpperCase() ? differenceUpperCaseLetter : differenceLowerCaseLetter
-                sum += duplicate.charCodeAt(0) - diff
-            })
-            console.log('sum: ', sum)
-        } )
+  let sum = 0
+  const groups = []
+
+  fetch(file)
+    .then(r => r.text())
+    .then(t => {
+      let packages = t.split('\r\n');
+      while (packages.length) {
+        groups.push(packages.splice(0, 3))
+      }
+      groups.forEach(group => {
+        const duplicate = commonGroupCharacter(group[0], group[1], group[2])
+        const diff = duplicate.isUpperCase() ? differenceUpperCaseLetter : differenceLowerCaseLetter
+        sum += duplicate.charCodeAt(0) - diff
+      })
+      console.log('sum: ', sum)
+    })
 }
