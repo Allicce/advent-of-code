@@ -1,7 +1,7 @@
 import './App.css';
 import '../src/utilities/strings'
 import React, {Component} from 'react'
-import {part_one, part_two} from "./2022/day4/day4";
+import {part_one, part_two} from "./2022/day5/day5";
 
 class App extends Component {
   componentDidMount() {
