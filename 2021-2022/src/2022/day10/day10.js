@@ -187,9 +187,9 @@
 //
 // Find the signal strength during the 20th, 60th, 100th, 140th, 180th, and 220th cycles. What is the sum of these six signal strengths?
 
-import file from "../day10/source_10.txt";
-import test from "../day10/test_10.txt";
-import testSmall from '../day10/smallTest.txt'
+import file from "./source_10.txt";
+import test from "./test_10.txt";
+import testSmall from './smallTest.txt'
 
 let register = 1
 let cycle = 0

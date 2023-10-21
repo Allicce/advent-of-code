@@ -1,5 +1,5 @@
 import './App.css';
-import '../src/utilities/strings'
+import './utilities/strings'
 import React, {Component} from 'react'
 import {part_one, part_two} from "./2022/day10/day10";
 

@@ -27,7 +27,7 @@
 //
 //   Consider your map; how many trees are visible from outside the grid?
 
-import file from "../day8/source_8.txt";
+import file from "./source_8.txt";
 import test from "./test_8.txt"
 
 const visibleTrees = []

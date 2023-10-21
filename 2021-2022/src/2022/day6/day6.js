@@ -29,8 +29,8 @@
 // How many characters need to be processed before the first start-of-packet marker is detected?
 
 
-import test from "../day6/test_6.txt";
-import file from '../day6/source_6.txt'
+import test from "./test_6.txt";
+import file from './source_6.txt'
 
 //const numberOfCharacters = 4
 const numberOfCharacters = 14
